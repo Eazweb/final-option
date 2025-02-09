@@ -21,7 +21,7 @@ import {
 import firebaseApp from "@/libs/firebase";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Product } from "@prisma/client";
+import type { Product } from ".prisma/client";
 
 export type ImageType = {
   color: string;

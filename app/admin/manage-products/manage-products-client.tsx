@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "@prisma/client";
+import type { Product } from '.prisma/client'
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { formatPrice } from "@/utils/format-price";
 import Heading from "@/app/components/heading";

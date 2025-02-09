@@ -1,7 +1,7 @@
 import AdminNav from "../components/admin/admin-nav";
 
 export const metadata = {
-  title: "SmartStore Admin",
+  title: "Medimetics",
   description: "SmartStore Admin Dashboard",
 };
 
