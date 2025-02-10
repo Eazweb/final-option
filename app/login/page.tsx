@@ -3,6 +3,9 @@ import Container from "../components/container";
 import FormWrap from "../components/form-wrap";
 import LoginForm from "./login-form";
 
+export const dynamic = "force-dynamic";
+
+
 const Login = async () => {
   const currentUser = await getCurrentUser();
 

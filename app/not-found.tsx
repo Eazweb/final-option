@@ -2,6 +2,9 @@ import { Suspense } from 'react';
 import Container from './components/container';
 import Link from 'next/link';
 
+export const dynamic = "force-dynamic";
+
+
 export default function NotFound() {
   return (
     <Suspense fallback={<div>Loading...</div>}>

@@ -2,6 +2,9 @@ import Container from "../components/container";
 import FormWrap from "../components/form-wrap";
 import CheckoutClient from "./checkout-client";
 
+export const dynamic = "force-dynamic";
+
+
 const Checkout = () => {
   return (
     <div className="-mt-20 sm:mt-0">

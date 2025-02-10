@@ -6,6 +6,9 @@ import Container from "../components/container";
 import BarGraph from "./bar-graph";
 import getGraphData from "@/actions/get-graph-data";
 
+export const dynamic = "force-dynamic";
+
+
 const Admin = async () => {
   const products = await getProducts({ category: null });
   const orders = await getOrders();
