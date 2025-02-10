@@ -9,7 +9,7 @@ interface CategoriesClientProps {
     label: string;
     icon: any;
   }>;
-  currentCategory: string | null;
+  currentCategory?: string | null;
 }
 
 const CategoriesClient: React.FC<CategoriesClientProps> = ({
