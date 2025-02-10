@@ -1,17 +1,39 @@
-import Stripe from "stripe";
+import Razorpay from "razorpay";
 import prisma from "@/libs/prismadb";
 import { NextResponse } from "next/server";
 import { CartProductType } from "@/app/product/[productId]/product-details";
 import getCurrentUser from "@/actions/get-current-user";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2023-10-16",
+// Debug log to check if keys are present and their format
+console.log("Razorpay Key ID exists:", !!process.env.RAZORPAY_KEY_ID);
+console.log("Razorpay Key ID format check:", process.env.RAZORPAY_KEY_ID?.startsWith('rzp_test_'));
+console.log("Razorpay Secret exists:", !!process.env.RAZORPAY_KEY_SECRET);
+console.log("Key lengths:", {
+  keyIdLength: process.env.RAZORPAY_KEY_ID?.length,
+  secretLength: process.env.RAZORPAY_KEY_SECRET?.length
 });
+
+if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+  console.error("Razorpay credentials are not properly configured");
+  throw new Error("Razorpay credentials are not properly configured");
+}
+
+let razorpayInstance: Razorpay;
+
+try {
+  razorpayInstance = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+  console.log("Razorpay instance created successfully");
+} catch (error) {
+  console.error("Error creating Razorpay instance:", error);
+  throw error;
+}
 
 const calculateOrderAmount = (items: CartProductType[]) => {
   const totalPrice = items.reduce((acc, item) => {
     const itemTotal = item.price * item.quantity;
-
     return acc + itemTotal;
   }, 0);
 
@@ -19,74 +41,84 @@ const calculateOrderAmount = (items: CartProductType[]) => {
 };
 
 export async function POST(request: Request) {
-  const currentUser = await getCurrentUser();
+  try {
+    const currentUser = await getCurrentUser();
 
-  if (!currentUser) {
-    return NextResponse.error();
-  }
-
-  const body = await request.json();
-  const { items, payment_intent_id } = body;
-  const total = Math.round(calculateOrderAmount(items) * 100);
-  const orderData = {
-    user: { connect: { id: currentUser.id } },
-    amount: total,
-    currency: "usd",
-    status: "pending",
-    deliveryStatus: "pending",
-    paymentIntentId: payment_intent_id,
-    products: items,
-  };
-
-  if (payment_intent_id) {
-    const current_intent = await stripe.paymentIntents.retrieve(
-      payment_intent_id
-    );
-
-    if (current_intent) {
-      const updated_intent = await stripe.paymentIntents.update(
-        payment_intent_id,
-        { amount: total }
+    if (!currentUser) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
       );
-
-      // update the order
-
-      const [existing_order, update_order] = await Promise.all([
-        prisma.order.findFirst({
-          where: { paymentIntentId: payment_intent_id },
-        }),
-        prisma.order.update({
-          where: { paymentIntentId: payment_intent_id },
-          data: {
-            amount: total,
-            products: items,
-          },
-        }),
-      ]);
-
-      if (!existing_order) {
-        return NextResponse.error();
-      }
-
-      return NextResponse.json({ paymentIntent: updated_intent });
     }
-  } else {
-    // create the intent
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: total,
-      currency: "usd",
-      automatic_payment_methods: { enabled: true },
-    });
 
-    // create the order
-    orderData.paymentIntentId = paymentIntent.id;
+    const body = await request.json();
+    const { items } = body;
+    
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return NextResponse.json(
+        { error: "Invalid request: No items in cart" },
+        { status: 400 }
+      );
+    }
 
-    await prisma.order.create({
-      data: orderData,
-    });
+    const total = Math.round(calculateOrderAmount(items) * 100);
 
-    return NextResponse.json({ paymentIntent });
+    try {
+      // Log the order creation attempt (without sensitive data)
+      console.log("Attempting to create Razorpay order with amount:", total);
+      
+      const order = await razorpayInstance.orders.create({
+        amount: total,
+        currency: "INR",
+        receipt: `order_${Date.now()}`,
+      });
+
+      console.log("Razorpay order created successfully:", order.id);
+
+      // Create order in database
+      const dbOrder = await prisma.order.create({
+        data: {
+          user: { connect: { id: currentUser.id } },
+          amount: total,
+          currency: "INR",
+          status: "pending",
+          deliveryStatus: "pending",
+          paymentIntentId: order.id,
+          products: items,
+        },
+      });
+
+      return NextResponse.json({
+        orderId: order.id,
+        amount: order.amount,
+        currency: order.currency,
+        keyId: process.env.RAZORPAY_KEY_ID
+      });
+    } catch (razorpayError: any) {
+      console.error("Razorpay Error Details:", {
+        statusCode: razorpayError.statusCode,
+        errorCode: razorpayError.error?.code,
+        description: razorpayError.error?.description,
+        message: razorpayError.message
+      });
+      
+      if (razorpayError.statusCode === 401) {
+        return NextResponse.json(
+          { error: "Payment service configuration error - Invalid API credentials" },
+          { status: 500 }
+        );
+      }
+      
+      return NextResponse.json(
+        { error: "Failed to create payment order" },
+        { status: 500 }
+      );
+    }
+  } catch (error) {
+    console.error("Server Error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.error();
 }
