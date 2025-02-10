@@ -47,3 +47,24 @@ export async function PUT(request: Request) {
 
   return NextResponse.json(product);
 }
+
+export async function GET() {
+  try {
+    const products = await prisma.product.findMany({
+      include: {
+        reviews: {
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdDate: "desc",
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(products);
+  } catch (error) {
+    return NextResponse.error();
+  }
+}
