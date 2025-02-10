@@ -1,9 +1,8 @@
 "use client";
 
 import { useCallback } from "react";
-import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import queryString from "query-string";
+import { headers } from 'next/headers';
 
 type useCategiesProps = {
   label: string;
@@ -11,38 +10,17 @@ type useCategiesProps = {
 
 const useCategories = ({ label }: useCategiesProps) => {
   const router = useRouter();
-  const params = useSearchParams();
+  const headersList = headers();
+  const currentCategory = headersList.get("x-category");
 
   const handleChangeCategory = useCallback(() => {
-    if (typeof window === 'undefined') return;
-    
     if (label === "All") {
       router.push("/");
     } else {
-      let currentQuery = {};
-
-      if (params) {
-        currentQuery = queryString.parse(params.toString());
-      }
-
-      const updatedQuery: any = {
-        ...currentQuery,
-        category: label,
-      };
-
-      const url = queryString.stringifyUrl(
-        {
-          url: "/",
-          query: updatedQuery,
-        },
-        {
-          skipNull: true,
-        }
-      );
-
-      router.push(url);
+      // Set the category in the header and navigate
+      router.push(`/?category=${label}`);
     }
-  }, [label, params, router]);
+  }, [label, router]);
 
   return { handleChangeCategory };
 };
