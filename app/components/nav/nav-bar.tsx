@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { Monoton } from "next/font/google";
 import CartCount from "./cart-count";
 import UserMenu from "./user-menu";
-import Categories from "./categories";
+import Categories from "./categories-wrapper";
 import SearchBar from "./search-bar";
 import { IoSearchOutline } from "react-icons/io5";
 import { SafeUser } from "@/types";

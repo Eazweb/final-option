@@ -14,8 +14,6 @@ const Categories = () => {
 
   if (!isMainPage) return null;
 
-  if (typeof window === 'undefined') return null;
-
   return (
     <div className="hidden sm:block border-b-[0.5px] bg-slate-300">
       <Container>
