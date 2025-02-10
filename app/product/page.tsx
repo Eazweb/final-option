@@ -4,9 +4,12 @@ import getProducts, { IProductParams } from "@/actions/get-products";
 import NullData from "@/app/components/null-data";
 import { categories } from "@/utils/categories";
 
+export const dynamic = "force-dynamic";
+
 interface ProductsProps {
   searchParams: IProductParams;
 }
+
 
 export default async function Products({ searchParams }: ProductsProps) {
   const products = await getProducts(searchParams);
