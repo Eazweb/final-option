@@ -4,6 +4,9 @@ import getProducts from "@/actions/get-products";
 import getCurrentUser from "@/actions/get-current-user";
 import NullData from "@/app/components/null-data";
 
+export const dynamic = "force-dynamic";
+
+
 const ManageProducts = async () => {
   const products = await getProducts({ category: null });
   const currentUser = await getCurrentUser();

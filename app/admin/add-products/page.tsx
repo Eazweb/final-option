@@ -4,6 +4,8 @@ import AddProductForm from "./add-product-form";
 import getCurrentUser from "@/actions/get-current-user";
 import NullData from "@/app/components/null-data";
 
+export const dynamic = "force-dynamic";
+
 const AddProducts = async () => {
   const currentUser = await getCurrentUser();
 
