@@ -1,86 +1,122 @@
-import React from "react";
-import Container from "../container";
-import FooterList from "./footer-list";
+import Image from "next/image";
 import Link from "next/link";
-import { MdFacebook } from "react-icons/md";
-import {
-  AiFillInstagram,
-  AiFillTwitterCircle,
-  AiFillYoutube,
-} from "react-icons/ai";
-import { categories } from "@/utils/categories";
-import Categories from "./categories";
+import React from "react";
 
 const Footer = () => {
-  const socialClasses =
-    "text-[1.6rem] hover:text-slate-50 hover:scale-[1.2] active:scale-95 transition";
-  const highlight = "hover:text-slate-50 transition";
-
   return (
-    <footer className="bg-slate-700 text-slate-200 text-sm mt-16">
-      <Container>
-        <div className="px-8 flex flex-col md:flex-row justify-between pt-10 pb-4">
-          <FooterList>
-            <h3 className="font-bold text-base mb-2">Shop Categories</h3>
-            {categories.map((item) => (
-              <Categories key={item.label} label={item.label} />
-            ))}
-          </FooterList>
-
-          <FooterList>
-            <h3 className="font-bold text-base mb-2">Customer Service</h3>
-            <Link href="#" className={highlight}>
-              Contact Us
-            </Link>
-            <Link href="#" className={highlight}>
-              Shipping Policy
-            </Link>
-            <Link href="#" className={highlight}>
-              Returns & Exchanges
-            </Link>
-            <Link href="#" className={highlight}>
-              FAQs
-            </Link>
-          </FooterList>
-
-          <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h3 className="text-base font-bold mb-2">About Us</h3>
-            <p className="mb-2">
-              At our electronics store, we are dedicated to providing the latest
-              and greatest devices and accessories to our customers. With a wide
-              selection of phones, TVs, laptops, watches, and accessories.
-            </p>
-            <p>
-              &copy; {new Date().getFullYear()} Smart Store. All rights
-              reserved.
-            </p>
+    <div className="bg-zinc-800">
+      <div className="px-4 max-w-[1400px] mx-auto pt-16 w-full md:px-24 lg:px-8">
+        <div className="grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="sm:col-span-2">
+            <a
+              href="/"
+              aria-label="Go home"
+              title="Company"
+              className="inline-flex items-center"
+            >
+              <h1 className="text-white font-semibold text-4xl">Medimetics</h1>
+            </a>
+            <div className="mt-6 lg:max-w-sm">
+              <p className="text-sm text-gray-300">
+                At Medimetics, we specialize in skin care products that enhance
+                your face's glow and fix minor skin problems. Our products are
+                crafted with love, comfort, and hygiene, keeping your pretty
+                face clean and glowing
+              </p>
+              <p className="mt-4 text-sm text-gray-300">
+                Whether you're a seasoned lifter or just starting out, trust
+                Medimetics for quality products that stands the test of time
+              </p>
+            </div>
           </div>
-          <FooterList>
-            <h3 className="font-bold text-base mb-2">Follow Us</h3>
-            <div className="flex gap-3">
-              <Link href="#">
-                <MdFacebook className={socialClasses} aria-label="Facebook" />
-              </Link>
-              <Link href="#">
-                <AiFillTwitterCircle
-                  className={socialClasses}
-                  aria-label="Twitter"
-                />
-              </Link>
-              <Link href="#">
-                <AiFillInstagram
-                  className={socialClasses}
-                  aria-label="Instagram"
-                />
-              </Link>
-              <Link href="#">
-                <AiFillYoutube className={socialClasses} aria-label="Youtube" />
+          <div className="space-y-2 text-sm">
+            <p className="text-base font-bold tracking-wide text-gray-100">
+              Contacts
+            </p>
+            <div className="flex">
+              <p className="mr-1 text-gray-300">Phone:</p>
+              <a
+                href="tel:+919056506403"
+                aria-label="Our phone"
+                title="Our phone"
+                className="transition-colors duration-300 text-gray-300 hover:text-gray-400"
+              >
+                +91 91155 57179
+              </a>
+            </div>
+            <div className="flex">
+              <p className="mr-1 text-gray-300">Email:</p>
+              <a
+                href="mailto:medimetics6@gmail.com"
+                aria-label="Our email"
+                title="Our email"
+                className="transition-colors duration-300  text-gray-300 hover:text-gray-400"
+              >
+                medimetics6@gmail.com
+              </a>
+            </div>
+            <div>
+              <span className="text-base font-bold tracking-wide text-gray-100">
+                Social
+              </span>
+              <div className="flex items-center mt-3 space-x-3">
+                <a
+                  href="https://wa.me/+919115557179"
+                  target="_blank"
+                  className="text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400"
+                >
+                  WhatsApp
+                </a>
+                <a
+                  href="https://www.instagram.com/realmedimetics?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                  target="_blank"
+                  className="text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400"
+                >
+                  Instagram
+                </a>
+                <a
+                  href="/faq"
+                  className="text-md font-semibold text-white transition-colors duration-300 hover:text-deep-purple-accent-400"
+                >
+                  F.A.Q
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-2 text-sm text-white block">
+            <div className="text-base font-bold tracking-wide text-gray-100">
+              Policies
+            </div>
+            <div>
+              <Link href="/policies/privacy">Privacy</Link>
+            </div>
+            <div>
+              <Link href="/policies/contact-us">Contact Us</Link>
+            </div>
+            <div>
+              <Link href="/policies/terms-and-conditions">
+                Terms and Conditions
               </Link>
             </div>
-          </FooterList>
+            <div>
+              <Link href="/policies/refund-and-cancellations">
+                Refund and Cancellations
+              </Link>
+            </div>
+            <div>
+              <Link href="/policies/product-shipping-policy">
+                Shipping Policy
+              </Link>
+            </div>
+          </div>
         </div>
-      </Container>
-    </footer>
+        <div className="flex flex-col-reverse justify-between pt-5 pb-10 border-t lg:flex-row">
+          <p className="text-sm text-gray-300">
+            © Copyright 2025 Medimetics Inc. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
