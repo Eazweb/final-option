@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { useSearchParams } from "next/dist/client/components/navigation";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
 
@@ -14,6 +14,8 @@ const useCategories = ({ label }: useCategiesProps) => {
   const params = useSearchParams();
 
   const handleChangeCategory = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    
     if (label === "All") {
       router.push("/");
     } else {
