@@ -11,6 +11,7 @@ import {
   MdDeliveryDining,
   MdDone,
   MdRemoveRedEye,
+  MdFilterAlt,
 } from "react-icons/md";
 import ActionButton from "@/app/components/action-button";
 import { useCallback, useState } from "react";
@@ -33,20 +34,23 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
   const [open, setOpen] = useState(false);
   const [nameToDelete, setNameToDelete] = useState("");
   const [orderToDelete, setOrderToDelete] = useState("");
+  const [showCompleted, setShowCompleted] = useState(false);
 
   let rows: any = [];
 
   if (orders) {
-    rows = orders.map((order) => {
-      return {
-        id: order.id,
-        customer: order.user.name,
-        amount: formatPrice(order.amount / 100),
-        paymentStatus: order.status,
-        date: moment(order.createDate).fromNow(),
-        deliveryStatus: order.deliveryStatus,
-      };
-    });
+    rows = orders
+      .filter(order => !showCompleted || order.status === "complete")
+      .map((order) => {
+        return {
+          id: order.id,
+          customer: order.user.name,
+          amount: formatPrice(order.amount / 100),
+          paymentStatus: order.status,
+          date: moment(order.createDate).fromNow(),
+          deliveryStatus: order.deliveryStatus,
+        };
+      });
   }
 
   const handleDispatch = useCallback((id: string) => {
@@ -217,8 +221,24 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
 
   return (
     <div className="max-w-[1150px] m-auto text-xl">
-      <div className="mb-4 mt-8">
+      <div className="mb-4 mt-8 flex justify-between items-center">
         <Heading title="Manage Orders" center />
+        <button
+          onClick={() => {
+            setShowCompleted(!showCompleted);
+            router.refresh();
+          }}
+          className={`flex items-center gap-1 px-4 py-2 rounded-md transition ${
+            showCompleted 
+              ? 'bg-green-500 text-white' 
+              : 'bg-gray-200 text-gray-700'
+          }`}
+        >
+          <MdFilterAlt size={20} />
+          <span className="text-sm">
+            {showCompleted ? 'Show All' : 'Show Completed'}
+          </span>
+        </button>
       </div>
       <div style={{ height: 600, width: "100%" }}>
         <DataGrid

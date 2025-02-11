@@ -18,8 +18,6 @@ import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { deleteObject, getStorage, ref } from "firebase/storage";
-import firebaseApp from "@/libs/firebase";
 import AlertDialog from "@/app/components/alert-dialog";
 
 interface ManageProductsClientProps {
@@ -34,7 +32,6 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({
   const [idToDelete, setIdToDelete] = useState("");
   const [imagesToDelete, setImagesToDelete] = useState([]);
   const router = useRouter();
-  const storage = getStorage(firebaseApp);
   let rows: any = [];
 
   if (products) {
@@ -74,8 +71,18 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({
       try {
         for (const item of images) {
           if (item.image) {
-            const imageRef = ref(storage, item.image);
-            await deleteObject(imageRef);
+            const imageUrl = item.image;
+            const publicId = imageUrl.split('/').pop()?.split('.')[0];
+            
+            if (publicId) {
+              const response = await fetch(`/api/cloudinary?publicId=${publicId}`, {
+                method: 'DELETE'
+              });
+              
+              if (!response.ok) {
+                throw new Error('Failed to delete image from Cloudinary');
+              }
+            }
           }
         }
       } catch (error) {
@@ -88,10 +95,11 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({
     axios
       .delete(`/api/product/${id}`)
       .then((res) => {
-        toast.success("Product status changed");
+        toast.success("Product deleted successfully");
         router.refresh();
       })
       .catch((error) => {
+        toast.error("Error deleting product");
         console.log(error);
       });
   }, []);

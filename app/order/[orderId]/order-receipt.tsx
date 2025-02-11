@@ -1,5 +1,5 @@
 'use client'
-import { Order } from "@prisma/client";
+import type { Order } from ".prisma/client";
 import { FaDownload } from "react-icons/fa";
 import { formatPrice } from "@/utils/format-price";
 import html2canvas from "html2canvas";
@@ -94,8 +94,6 @@ const OrderReceipt: React.FC<OrderReceiptProps> = ({ order, userEmail, userName 
               <tr style={{ borderBottom: '1px solid #ddd' }}>
                 <th style={{ textAlign: 'left', padding: '8px' }}>Item</th>
                 <th style={{ textAlign: 'center', padding: '8px' }}>Quantity</th>
-                <th style={{ textAlign: 'right', padding: '8px' }}>Price</th>
-                <th style={{ textAlign: 'right', padding: '8px' }}>Total</th>
               </tr>
             </thead>
             <tbody>
@@ -103,22 +101,8 @@ const OrderReceipt: React.FC<OrderReceiptProps> = ({ order, userEmail, userName 
                 <tr key={index} style={{ borderBottom: '1px solid #ddd' }}>
                   <td style={{ padding: '8px' }}>{item.name}</td>
                   <td style={{ textAlign: 'center', padding: '8px' }}>{item.quantity}</td>
-                  <td style={{ textAlign: 'right', padding: '8px' }}>₹{formatPrice(item.price)}</td>
-                  <td style={{ textAlign: 'right', padding: '8px' }}>₹{formatPrice(item.price * item.quantity)}</td>
                 </tr>
               ))}
-              <tr style={{ borderBottom: '1px solid #ddd' }}>
-                <td colSpan={3} style={{ textAlign: 'right', padding: '8px', fontWeight: 'bold' }}>Subtotal:</td>
-                <td style={{ textAlign: 'right', padding: '8px' }}>₹{formatPrice(order.amount - order.deliveryCharge)}</td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid #ddd' }}>
-                <td colSpan={3} style={{ textAlign: 'right', padding: '8px', fontWeight: 'bold' }}>Delivery Charge:</td>
-                <td style={{ textAlign: 'right', padding: '8px' }}>₹{formatPrice(order.deliveryCharge)}</td>
-              </tr>
-              <tr>
-                <td colSpan={3} style={{ textAlign: 'right', padding: '8px', fontWeight: 'bold' }}>Total Amount:</td>
-                <td style={{ textAlign: 'right', padding: '8px', fontWeight: 'bold' }}>₹{formatPrice(order.amount)}</td>
-              </tr>
             </tbody>
           </table>
         </div>

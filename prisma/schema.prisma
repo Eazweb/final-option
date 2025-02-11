@@ -107,7 +107,7 @@ type Address {
   line2 String?
   postalCode String
   state String
-  phone String
+  phone String?
 }
 
 enum Role {
