@@ -1,13 +1,12 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import Avatar from "../avatar";
-import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
 import { MenuItem } from "@mui/material";
 import { signOut } from "next-auth/react";
 import BackDrop from "./back-drop";
 import { SafeUser } from "@/types";
+import { User } from "lucide-react";
 
 interface UserMenuProps {
   currentUser: SafeUser | null;
@@ -21,13 +20,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 
   return (
     <>
-      <div className="relative z-30  hover:scale-110 active:scale-100 transition">
+      <div className="relative z-30">
         <div
           onClick={toggleOpen}
-          className="p-1 border-[2px] border-slate-400 flex flex-row items-center gap-1 rounded-full cursor-pointer hover:shadow-md transition text-slate-100"
+          className="cursor-pointer hover:opacity-80 transition"
         >
-          <Avatar src={currentUser?.image} />
-          <AiFillCaretDown />
+          <User className="h-6 w-6 text-slate-800" />
         </div>
         {isOpen && (
           <div className="absolute rounded-md shadow-md w-[170px] bg-white overflow-hidden right-0 top-12 text-sm flex flex-col cursor-pointer">

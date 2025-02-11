@@ -89,8 +89,9 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         <div>Line 1: {order.address?.line1}</div>
         {order.address?.city !== "" && <div>Line 2: {order.address?.city}</div>}
         <div>State: {order.address?.state}</div>
-        <div>Country Code: {order.address?.country}</div>
+        <div>Country : {order.address?.country}</div>
         <div>Postal Code: {order.address?.postalCode}</div>
+        <div>Phone: {order.address?.phone}</div>
       </div>
     </div>
   );

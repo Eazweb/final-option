@@ -10,8 +10,8 @@ import getCurrentUser from "@/actions/get-current-user";
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
-  title: "SmartStore",
-  description: "SmartStore Portfolio App",
+  title: "Medimetics",
+  description: "Hello Pretty Faces",
 };
 
 export default async function RootLayout({

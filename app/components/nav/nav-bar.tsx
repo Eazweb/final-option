@@ -12,6 +12,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { SafeUser } from "@/types";
 import { MdArrowBackIos, MdCancel } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 
 const exo = Monoton({ subsets: ["latin"], weight: ["400"] });
 
@@ -29,20 +30,15 @@ const NavBar: React.FC<NavBarPros> = ({ currentUser }) => {
   };
 
   return (
-    <div className="sticky top-0 w-full bg-slate-700 z-30 shadow-xl">
+    <div className="sticky top-0 w-full bg-white z-30 ">
       <div className="py-4 border-b-[1px] border-slate-500">
         <Container>
           <div className="flex items-center justify-between sm:px-2 xl:px-0">
             <Link
               href="/"
-              className={`${exo.className} flex items-center text-white opacity-90 font-normal italic text-[1.55rem] sm:text-[1.8rem] hover:scale-105 active:scale-100 transition`}
+              className={`${exo.className} flex items-center opacity-90 font-normal italic text-[1.55rem] sm:text-[1.8rem] hover:scale-105 active:scale-100 transition`}
             >
-              {path && path.includes("/product") && (
-                <MdArrowBackIos className="text-[1.4rem] sm:text-[1.25rem] mb-1 sm:mb-[1.75px]" />
-              )}
-              <span className="text-[1.6rem] sm:text-[1.65rem]">S</span>mart{" "}
-              <span className="text-[1.6rem] sm:text-[1.65rem] ml-1">S</span>
-              tore
+             <Image src="/logo.png" alt="logo" width={200} height={200} />
             </Link>
 
             <div className="flex items-center gap-4 md:gap-8 xl:gap-12">
@@ -56,7 +52,7 @@ const NavBar: React.FC<NavBarPros> = ({ currentUser }) => {
                 </div>
                 {searchBar ? (
                   <MdCancel
-                    className="text-[1.9rem] text-gray-200 pb-[0.1rem] cursor-pointer hidden md:block hover:scale-110 active:scale-[0.9] transition"
+                    className="text-[1.9rem]  pb-[0.1rem] cursor-pointer hidden md:block hover:scale-110 active:scale-[0.9] transition"
                     onClick={() => {
                       setSearchBar(false);
                       resetSearch();
@@ -64,7 +60,7 @@ const NavBar: React.FC<NavBarPros> = ({ currentUser }) => {
                   />
                 ) : (
                   <IoSearchOutline
-                    className="text-[1.9rem] text-white pb-[0.1rem] cursor-pointer hidden md:block hover:scale-110 active:scale-[0.9] transition"
+                    className="text-[1.9rem] pb-[0.1rem] cursor-pointer hidden md:block hover:scale-110 active:scale-[0.9] transition"
                     onClick={() => setSearchBar(true)}
                   />
                 )}
@@ -76,7 +72,7 @@ const NavBar: React.FC<NavBarPros> = ({ currentUser }) => {
           </div>
         </Container>
       </div>
-      <Categories />
+      {/* <Categories /> */}
     </div>
   );
 };

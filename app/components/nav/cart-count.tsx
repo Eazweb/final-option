@@ -14,11 +14,11 @@ const CartCount = () => {
       className="relative cursor-pointer hover:scale-110 active:scale-[0.9] transition"
       onClick={() => router.push("/cart")}
     >
-      <div className="text-[1.7rem] sm:text-[1.95rem] text-white pb-[0.1rem]">
+      <div className="text-[1.7rem] sm:text-[1.95rem] pb-[0.1rem]">
         <IoCartOutline />
       </div>
       <span
-        className={`absolute top-[-4px] right-[-10px] bg-pink-600 text-white font-semibold h-5 w-5 rounded-full flex items-center justify-center text-sm
+        className={`absolute top-[-4px] right-[-10px] bg-pink-600 font-semibold h-5 w-5 rounded-full flex items-center justify-center text-sm
       ${cartTotalQuantity === 0 ? "hidden" : "block"}
       `}
       >

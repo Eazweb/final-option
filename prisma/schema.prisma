@@ -78,6 +78,7 @@ model Order {
   paymentIntentId   String    @unique
   products          CartProductType[]
   address           Address?
+  deliveryCharge    Float     @default(50)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -106,6 +107,7 @@ type Address {
   line2 String?
   postalCode String
   state String
+  phone String
 }
 
 enum Role {

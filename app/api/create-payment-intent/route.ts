@@ -31,13 +31,16 @@ try {
   throw error;
 }
 
-const calculateOrderAmount = (items: CartProductType[]) => {
+const calculateOrderAmount = (items: CartProductType[], deliveryCharge: number) => {
   const totalPrice = items.reduce((acc, item) => {
     const itemTotal = item.price * item.quantity;
     return acc + itemTotal;
   }, 0);
 
-  return totalPrice;
+  const totalWithDelivery = totalPrice + deliveryCharge;
+  const amountInPaise = Math.round(totalWithDelivery * 100);
+
+  return amountInPaise;
 };
 
 export async function POST(request: Request) {
@@ -52,7 +55,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { items } = body;
+    const { items, deliveryCharge } = body;
     
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
@@ -61,7 +64,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const total = Math.round(calculateOrderAmount(items) * 100);
+    const total = calculateOrderAmount(items, deliveryCharge);
 
     try {
       // Log the order creation attempt (without sensitive data)
@@ -90,8 +93,8 @@ export async function POST(request: Request) {
 
       return NextResponse.json({
         orderId: order.id,
-        amount: order.amount,
-        currency: order.currency,
+        amount: total,
+        currency: "INR",
         keyId: process.env.RAZORPAY_KEY_ID
       });
     } catch (razorpayError: any) {

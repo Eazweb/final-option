@@ -12,13 +12,6 @@ import { colors } from "@/utils/colors";
 import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import firebaseApp from "@/libs/firebase";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -89,7 +82,7 @@ const AddProductForm = () => {
       return toast.error("Category is not selected!");
     }
 
-    if (!data.images || data.images.length === 0) {
+    if (!images || images.length === 0) {
       setIsLoading(false);
       return toast.error("No selected image!");
     }
@@ -97,58 +90,42 @@ const AddProductForm = () => {
     const handleImageUploads = async () => {
       toast("Creating product, please wait...");
       try {
-        for (const item of data.images) {
+        for (const item of images) {
           if (item.image) {
-            const fileName = new Date().getTime() + "-" + item.image.name;
-            const storage = getStorage(firebaseApp);
-            const storageRef = ref(storage, `products/${fileName}`);
-            const uploadTask = uploadBytesResumable(storageRef, item.image);
+            const formData = new FormData();
+            formData.append('file', item.image);
+            formData.append('upload_preset', 'ml_default');
 
-            await new Promise<void>((resolve, reject) => {
-              uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                  const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log("Upload is " + progress + "% done");
-                  switch (snapshot.state) {
-                    case "paused":
-                      console.log("Upload is paused");
-                      break;
-                    case "running":
-                      console.log("Upload is running");
-                      break;
-                  }
-                },
-                (error) => {
-                  console.log("Error uploading image", error);
-                  reject(error);
-                },
-                () => {
-                  getDownloadURL(uploadTask.snapshot.ref)
-                    .then((downloadURL) => {
-                      uploadedImages.push({
-                        ...item,
-                        image: downloadURL,
-                      });
-                      console.log("File available at", downloadURL);
-                      resolve();
-                    })
-                    .catch((error) => {
-                      console.log("Error getting the download URL", error);
-                      reject(error);
-                    });
-                }
-              );
+            console.log('Uploading image:', item.color, item.image);
+
+            const response = await fetch(
+              `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+              {
+                method: 'POST',
+                body: formData,
+              }
+            );
+
+            const responseData = await response.json();
+            console.log('Upload response:', responseData);
+
+            if (!response.ok) {
+              throw new Error(responseData.error?.message || 'Failed to upload image');
+            }
+
+            uploadedImages.push({
+              ...item,
+              image: responseData.secure_url,
             });
           }
         }
-      } catch (error) {
+      } catch (error: any) {
         setIsLoading(false);
-        console.log("Error handling image uploads", error);
-        return toast.error("Error handling image uploads");
+        console.error("Error handling image uploads:", error);
+        return toast.error(error.message || "Error handling image uploads");
       }
     };
+
     await handleImageUploads();
 
     const list = data.list === "" || data.list === 0 ? data.price : data.list;
@@ -158,6 +135,8 @@ const AddProductForm = () => {
       images: uploadedImages,
       list: list,
     };
+
+    console.log('Submitting product data:', productData);
 
     axios
       .post("/api/product", productData)
