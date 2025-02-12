@@ -56,16 +56,18 @@ const OrdersClient: React.FC<OrdersClient> = ({ orders }) => {
   }, []);
 
   if (orders) {
-    rows = orders.map((order) => {
-      return {
-        id: order.id,
-        customer: order.user.name,
-        amount: formatPrice(order.amount / 100),
-        paymentStatus: order.status,
-        date: moment(order.createDate).fromNow(),
-        deliveryStatus: order.deliveryStatus,
-      };
-    });
+    rows = orders
+      .filter(order => order.status === "complete")
+      .map((order) => {
+        return {
+          id: order.id,
+          customer: order.user.name,
+          amount: formatPrice(order.amount / 100),
+          paymentStatus: order.status,
+          date: moment(order.createDate).fromNow(),
+          deliveryStatus: order.deliveryStatus,
+        };
+      });
   }
 
   const columns: GridColDef[] = [
