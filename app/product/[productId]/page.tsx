@@ -18,17 +18,17 @@ const Product = async ({ params }: { params: ItemParams }) => {
     return <NullData title="Oops! Product with the give id does not exist." />;
 
   return (
-    <div className="p-8">
+    <div className="p-2">
       <Container>
         <ProductDetails product={product} />
-        <div className="flex flex-col-reverse sm:flex-row mt-12 sm:mt-20 gap-4">
+        {/* <div className="flex flex-col-reverse sm:flex-row mt-12 sm:mt-20 gap-4">
           <div className="w-full sm:w-1/2">
             <AddRating product={product} user={user} />
           </div>
           <div className="sm:w-1/2">
             <ListRating product={product} />
           </div>
-        </div>
+        </div> */}
       </Container>
     </div>
   );

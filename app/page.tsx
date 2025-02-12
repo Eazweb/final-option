@@ -6,6 +6,8 @@ import ProductCard from "./components/products/product-card";
 import getProducts, { IProductParams } from "@/actions/get-products";
 import NullData from "./components/null-data";
 import Problems from "./components/Problems";
+import Reviews from "./components/Reviews";
+import ResponsiveCarousel from "./components/ResponsiveCarousel";
 
 interface HomeProps {
   searchParams: IProductParams;
@@ -34,7 +36,7 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <div className="p-2 sm:p-8">
       <Container>
-        <HomeBanner />
+       <ResponsiveCarousel/>
 
           <Problems/>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4  gap-4 sm:gap-8 ">
@@ -43,6 +45,7 @@ export default async function Home({ searchParams }: HomeProps) {
           })}
         </div>
       </Container>
+        <Reviews/>
     </div>
   );
 }

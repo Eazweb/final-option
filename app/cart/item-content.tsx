@@ -22,8 +22,9 @@ const ItemContent: React.FC<ItemContentProps> = ({ item }) => {
   } = useCart();
 
   return (
-    <div className="grid grid-cols-5 text-xs md:text-sm gap-4 border-t-[1.5px] border-slate-200 py-4 items-center">
-      <div className="col-span-2 justify-self-start flex gap-2 md:gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-5 text-xs md:text-sm gap-4 border-t-[1.5px] border-slate-200 py-4 items-center">
+      {/* Product Image and Details */}
+      <div className="col-span-2 sm:col-span-2 justify-self-start flex gap-2 md:gap-4">
         <Link href={`/product/${item.id}`}>
           <div className="relative w-[70px] aspect-square">
             <Image
@@ -34,10 +35,11 @@ const ItemContent: React.FC<ItemContentProps> = ({ item }) => {
             />
           </div>
         </Link>
-        <div className="flex flex-col justify-between">
-          <Link href={`/product/${item.id}`}>{truncateText(item.name)}</Link>
-          <div>{item.selectedImg.color}</div>
-          <div className="w-[70px]">
+        <div className="flex flex-col justify-between flex-grow max-w-[calc(100%-90px)]">
+          <Link href={`/product/${item.id}`} className="font-medium text-sm line-clamp-2 break-words leading-tight">
+            {item.name}
+          </Link>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-4 mt-1">
             <button
               className="text-slate-500 underline"
               onClick={() => {
@@ -47,13 +49,20 @@ const ItemContent: React.FC<ItemContentProps> = ({ item }) => {
             >
               Remove
             </button>
+            <div className="sm:hidden text-sm font-medium">
+              {formatPrice(item.price)}
+            </div>
           </div>
         </div>
       </div>
-      <div className="justify-self-center pl-4 sm:pl-0">
+
+      {/* Price - Hidden on Mobile */}
+      <div className="hidden sm:block justify-self-center">
         {formatPrice(item.price)}
       </div>
-      <div className="justify-self-center pl-4 sm:pl-0">
+
+      {/* Quantity Controls */}
+      <div className="justify-self-start sm:justify-self-center pl-5 sm:pl-0">
         <SetQuantity
           cartMode={true}
           cartCounter={true}
@@ -62,7 +71,10 @@ const ItemContent: React.FC<ItemContentProps> = ({ item }) => {
           handleQuantityDecrease={() => handleCartQuantityDecrease(item)}
         />
       </div>
-      <div className="justify-self-end font-semibold">
+
+      {/* Total Price */}
+      <div className="justify-self-end flex gap-1 font-semibold pr-5 sm:pr-0">
+        <span className="flex sm:hidden">Total:</span>
         {formatPrice(item.price * item.quantity)}
       </div>
     </div>

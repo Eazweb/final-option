@@ -33,7 +33,7 @@ export default async function RootLayout({
             duration: 3000,
 
             style: {
-              background: "rgb(51, 65, 85)",
+             
               color: "#fff",
               fontSize: "16px",
               fontFamily: poppins.style.fontFamily,

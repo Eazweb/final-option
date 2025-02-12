@@ -74,12 +74,7 @@ const Footer = () => {
                 >
                   Instagram
                 </a>
-                <a
-                  href="/faq"
-                  className="text-md font-semibold text-white transition-colors duration-300 hover:text-deep-purple-accent-400"
-                >
-                  F.A.Q
-                </a>
+                
               </div>
             </div>
           </div>
@@ -108,6 +103,12 @@ const Footer = () => {
                 Shipping Policy
               </Link>
             </div>
+            <div>
+              <Link href="/reseller">
+                Become a reseller
+              </Link>
+            </div>
+           
           </div>
         </div>
         <div className="flex flex-col-reverse justify-between pt-5 pb-10 border-t lg:flex-row">

@@ -41,8 +41,13 @@ const NavBar: React.FC<NavBarPros> = ({ currentUser }) => {
              <Image src="/logo.png" alt="logo" width={200} height={200} />
             </Link>
 
+            <div className="md:flex gap-5 hidden ">
+              <Link href="/about" className="text-black">About</Link>
+              <Link href="/policies/contact-us" className="text-black">Contact Us</Link>
+            </div>
+
             <div className="flex items-center gap-4 md:gap-8 xl:gap-12">
-              <div className="flex items-center gap-4">
+              {/* <div className="flex items-center gap-4">
                 <div
                   className={`hidden md:block opacity-0 transition 
                     ${searchBar ? "opacity-100" : "opacity-0"}
@@ -64,7 +69,7 @@ const NavBar: React.FC<NavBarPros> = ({ currentUser }) => {
                     onClick={() => setSearchBar(true)}
                   />
                 )}
-              </div>
+              </div> */}
 
               <CartCount />
               <UserMenu currentUser={currentUser} />

@@ -101,46 +101,31 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
           handleColorSelect={handleColorSelect}
         />
       </div>
-      <div className="flex flex-col gap-1 text-slate-500 text-sm my-auto">
-        <h2 className="text-3xl font-medium text-slate-700 mb-1">
+      <div className="flex flex-col gap-1 text-black text-sm md:my-auto">
+        <h2 className="text-3xl font-light text-black mb-1 uppercase">
           {product.name}
         </h2>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <Rating value={productRating(product.reviews)} readOnly />
           <div>{product.reviews.length} reviews</div>
-        </div>
-        <Horizontal />
-        <div className="text-justify">{product.description}</div>
-        <Horizontal />
-        <div className="flex flex-wrap justify-between">
+        </div> */}
+        {/* <Horizontal /> */}
+       
+        {/* <Horizontal /> */}
+        <div className="flex flex-wrap justify-between mt-3">
           <div className="flex-col">
-            <div className="mb-2">
+            {/* <div className="mb-2">
               <span className="font-semibold">CATEGORY:</span>{" "}
               {product.category}
+            </div> */}
+            <div className="text-sm px-2 py-1 bg-gray-300">
+               {product.brand}
             </div>
-            <div>
-              <span className="font-semibold">BRAND:</span> {product.brand}
-            </div>
-          </div>
-
-          <div className={`text-xl flex gap-2 sm:w-[50%] mt-1}`}>
-            <span className="font-semibold text-sm pt-[5px]">STOCK:</span>
-            <Status
-              text={product.inStock ? "In stock" : "Out of stock"}
-              icon={product.inStock ? MdDone : MdOutlineClose}
-              bg={product.inStock ? "bg-teal-600" : "bg-pink-600"}
-              color="text-white font-normal flex justify-center h-8"
-            />
           </div>
         </div>
         <Horizontal />
 
         <div className="flex flex-col gap-1">
-          <SetColor
-            images={product.images}
-            cartProduct={cartProduct}
-            handleColorSelect={handleColorSelect}
-          />
           <SetQuantity
             cartProduct={cartProduct}
             handleQuantityIncrease={handleQuantityIncrease}
@@ -148,48 +133,41 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
           />
 
           <Horizontal />
-          {product.list !== product.price && (
-            <div className="flex flex-wrap font-normal text-md text-slate-400 gap-2 mb-1">
-              <span className="line-through text-2xl">
-                $ {formatPrice(product.list * cartProduct.quantity)}
-              </span>
-              <Status
-                text={
-                  Math.round(
-                    ((product.list - product.price) / product.price) * 100
-                  ) + "% OFF"
-                }
-                icon={MdDone}
-                bg="bg-pink-600"
-                color="text-white font-medium"
-              />
-            </div>
-          )}
-          <div className="flex gap-4 text-3xl text-slate-600 font-bold">
-            <span>Total</span>
-            <div>
-              <span>$ </span>
+          
+          <div className="md:flex items-center gap-6">
+            <div className="flex gap-2 text-3xl text-black font-medium">
+              <span>₹</span>
               {formatPrice(product.price * cartProduct.quantity)}
             </div>
+            {product.list !== product.price && (
+              <div className="flex items-center gap-3">
+                <span className="line-through text-2xl font-medium text-gray-400">
+                ₹{formatPrice(product.list * cartProduct.quantity)}
+                </span>
+                <Status
+                  text={
+                    Math.round(
+                      ((product.list - product.price) / product.price) * 100
+                    ) + "% OFF"
+                  }
+                  icon={MdDone}
+                  bg="bg-green-600"
+                  color="text-white font-medium"
+                />
+              </div>
+            )}
           </div>
           <Horizontal />
 
           {isProductInCart && (
-            <p className="mt-1 text-slate-500 flex  items-center gap-1">
+            <p className="mt-1 text-black flex items-center gap-1">
               <MdCheckCircle size={20} className="text-teal-500" />
               <span>Product added to cart</span>
             </p>
           )}
-          <div className="max-w-[340px] mt-3">
+          <div className=" mt-3">
             <Button
-              label={
-                !product.inStock
-                  ? "Out of stock"
-                  : isProductInCart
-                  ? "View cart"
-                  : "Add to cart"
-              }
-              disabled={!product.inStock}
+              label={isProductInCart ? "View cart" : "Add to cart"}
               outline={isProductInCart}
               onClick={() => {
                 if (isProductInCart) {
@@ -202,6 +180,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
             />
           </div>
         </div>
+        <div className="text-justify mt-3 font-light text-gray-600 text-md">{product.description}</div>
       </div>
     </div>
   );

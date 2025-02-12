@@ -42,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   }, [data]);
 
   return (
-    <div className="flex flex-col gap-3 p-3">
+    <div className="flex flex-col gap-3 ">
       {/* Image */}
       <div 
         onClick={() => router.push(`/product/${data.id}`)}
@@ -60,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       <div className="flex flex-col gap-1">
         <h3 
           onClick={() => router.push(`/product/${data.id}`)}
-          className="font-light text-3xl uppercase tracking-wider cursor-pointer hover:text-slate-600 line-clamp-2 min-h-[4.5rem]"
+          className="font-light text-xl md:text-2xl uppercase tracking-wider cursor-pointer hover:text-slate-600 line-clamp-2 "
         >
           {truncateText(data.name)}
         </h3>

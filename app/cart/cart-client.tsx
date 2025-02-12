@@ -47,20 +47,24 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
 
   return (
     <div>
-      <Heading title="Shopping Cart" center />
-      <div className="grid grid-cols-5 text-xs gap-4 pb-2 items-center mt-8">
+      <h1 className="text-2xl font-semibold">Shopping Cart</h1>
+      
+      {/* Cart Headers - Hidden on Mobile */}
+      <div className="hidden sm:grid grid-cols-5 text-xs gap-4 pb-2 items-center mt-8">
         <div className="col-span-2 justify-self-start">PRODUCT</div>
-        <div className="justify-self-center pl-4 sm:pl-0">PRICE</div>
-        <div className="justify-self-center pl-4 sm:pl-0">QUANTITY</div>
+        <div className="justify-self-center">PRICE</div>
+        <div className="justify-self-center">QUANTITY</div>
         <div className="justify-self-end">TOTAL</div>
       </div>
-      <div>
+
+      <div className="mt-4 sm:mt-0">
         {cartProducts &&
           cartProducts.map((item) => {
             return <ItemContent key={item.id} item={item} />;
           })}
       </div>
-      <div className="border-t-[1.5px] border-slate-200 py-4 flex justify-between gap-4">
+
+      <div className="border-t-[1.5px] border-slate-200 py-8 flex flex-col sm:flex-row justify-between gap-4">
         <div className="w-[90px]">
           <Button
             label="Clear Cart"
@@ -69,25 +73,26 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
             outline
           />
         </div>
-        <div className="text-sm flex flex-col gap-1 items-start">
+        <div className="text-sm flex flex-col gap-1 items-start w-full sm:w-auto">
           <div className="flex justify-between w-full text-base font-semibold">
             <span>Subtotal</span>
             <span>{formatPrice(cartTotalAmount)}</span>
           </div>
-          <p></p>
-          <p className="text-slate-500">
+          <p className="text-slate-500 text-xs sm:text-sm">
             Taxes and shipping calculated at checkout
           </p>
-          <Button
-            label={currentUser ? "Checkout" : "Login to Checkout"}
-            outline={currentUser ? false : true}
-            onClick={() => {
-              currentUser ? router.push("/checkout") : router.push("/login");
-            }}
-          />
+          <div className="w-full">
+            <Button
+              label={currentUser ? "Checkout" : "Login to Checkout"}
+              outline={currentUser ? false : true}
+              onClick={() => {
+                currentUser ? router.push("/checkout") : router.push("/login");
+              }}
+            />
+          </div>
           <Link
             href={"/"}
-            className="text-slate-500 flex items-center gap-1 mt-2  hover:scale-110 active:scale-100 transition"
+            className="text-slate-500 flex items-center gap-1 mt-2 hover:scale-110 active:scale-100 transition"
           >
             <MdArrowBack />
             <span>Continue Shopping</span>
