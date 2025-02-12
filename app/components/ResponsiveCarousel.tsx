@@ -78,7 +78,7 @@ export default function ResponsiveCarousel() {
       {/* Wide Carousel (md and lg devices) */}
       <div
         className="hidden md:block relative w-full rounded-2xl"
-        style={{ paddingBottom: "33.33%" }}
+        style={{ paddingBottom: "25%" }}
       >
         {carouselItems.map((item, index) => (
           <Link

@@ -63,7 +63,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
 
   return (
     <>
-      <Heading title="Sing in to SmartStore" custom="mb-1" />
+      <Heading title="Sing in to Medimetics" custom="mb-1" />
       <Input
         id="email"
         label="Email"

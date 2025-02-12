@@ -76,7 +76,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ currentUser }) => {
 
   return (
     <>
-      <Heading title="Sign up for SmartStore" custom="mb-1" />
+      <Heading title="Sign up for Medimetics" custom="mb-1" />
       <Input
         id="name"
         label="Name"
