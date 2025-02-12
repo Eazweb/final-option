@@ -106,13 +106,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ currentUser }) => {
         label={isLoading ? "Loading" : "Sign Up"}
         onClick={handleSubmit(onSubmit)}
       />
-      <HorizontalLine or />
+      {/* <HorizontalLine or />
       <Button
         icon={AiOutlineGoogle}
         label="Sign up with Google"
         onClick={() => signIn("google")}
         outline
-      />
+      /> */}
       <p className="text-sm">
         Already have an account?{" "}
         <Link href={"/login"} className="underline">

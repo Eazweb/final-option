@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
       className={`disabled:opacity-70 disabled:cursor-not-allowed rounded-md hover:opacity-80 w-full border-slate-700 flex items-center justify-center gap-2 active:scale-95 transition
-      ${outline ? "bg-white" : "bg-[#a7c957]"}
+      ${outline ? "bg-white border-2 border-slate-700" : "bg-[#a7c957]"}
       ${outline ? "text-slate-700" : "text-white"}
       ${small ? "text-sm font-light" : "text-md font-semibold"}
       ${small ? "py-1 px-2 " : "py-3 px-4 "}
