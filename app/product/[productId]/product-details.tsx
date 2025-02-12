@@ -180,7 +180,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
             />
           </div>
         </div>
-        <div className="text-justify mt-3 font-light text-gray-600 text-md">{product.description}</div>
+        <div className="text-justify mt-5 font-light text-gray-600 text-md">{product.description}</div>
       </div>
     </div>
   );

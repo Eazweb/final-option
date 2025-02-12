@@ -33,9 +33,9 @@ const skinProblems = [
 
 export default function Problems() {
   return (
-    <div className="w-full py-16 ">
+    <div className="w-full py-5 ">
       <div className="max-w-[1300px] mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-10 text-[#a7c957]">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-5 text-[#a7c957]">
           Common Skin Problems
         </h2>
         {/* Large Screens - Single row, 6 items */}
