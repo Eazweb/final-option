@@ -41,7 +41,7 @@ const NavBar: React.FC<NavBarPros> = ({ currentUser }) => {
              <Image src="/logo.png" alt="logo" width={200} height={200} />
             </Link>
 
-            <div className="md:flex gap-5 hidden ">
+            <div className="md:flex gap-5 xl:gap-10 hidden ">
               <Link href="/about" className="text-black">About</Link>
               <Link href="/policies/contact-us" className="text-black">Contact Us</Link>
             </div>

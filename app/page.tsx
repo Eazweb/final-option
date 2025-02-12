@@ -39,7 +39,8 @@ export default async function Home({ searchParams }: HomeProps) {
        <ResponsiveCarousel/>
 
           <Problems/>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4  gap-4 sm:gap-8 ">
+          <h1 className="text-center text-2xl md:text-4xl font-semibold py-5 md:py-8 text-[#a7c957]">Our Products</h1>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4  gap-4 sm:gap-8 ">
           {products.map((product: any) => {
             return <ProductCard data={product} key={product.id} />;
           })}

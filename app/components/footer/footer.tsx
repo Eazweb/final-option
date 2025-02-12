@@ -74,6 +74,12 @@ const Footer = () => {
                 >
                   Instagram
                 </a>
+                <a
+                  href="/about"
+                  className="text-gray-400 transition-colors duration-300 hover:text-deep-purple-accent-400"
+                >
+                  About Us
+                </a>
                 
               </div>
             </div>
