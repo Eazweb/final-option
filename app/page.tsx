@@ -48,7 +48,6 @@ export default async function Home({ searchParams }: HomeProps) {
           })}
         </div>
       </Container>
-        <Reviews/>
         <section className="mt-20">
         <div className="flex flex-col md:flex-row justify-center items-center gap-10">
           <div className="flex flex-col gap-3 text-center md:text-left max-w-xl">
@@ -78,6 +77,8 @@ export default async function Home({ searchParams }: HomeProps) {
           <CompareDemo />
         </div>
       </section>
+      <Reviews/>
+
     </div>
   );
 }
