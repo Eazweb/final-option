@@ -10,6 +10,7 @@ import Reviews from "./components/Reviews";
 import ResponsiveCarousel from "./components/ResponsiveCarousel";
 import Link from "next/link";
 import { CompareDemo } from "./components/Compare";
+import FadeInWrapper from "./components/FadeInWrapper";
 
 interface HomeProps {
   searchParams: IProductParams;
@@ -38,16 +39,28 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <div className="p-2 sm:p-8">
       <Container>
-       <ResponsiveCarousel/>
+        <FadeInWrapper>
+          <ResponsiveCarousel/>
+        </FadeInWrapper>
 
+        <FadeInWrapper delay={0.2}>
           <Problems/>
+        </FadeInWrapper>
+
+        <FadeInWrapper delay={0.4}>
           <h1 className="text-center text-3xl md:text-4xl font-bold py-5 md:py-8 text-[#a7c957]">Our Products</h1>
+          </FadeInWrapper>
+
+        <FadeInWrapper>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4  gap-4 sm:gap-8 ">
           {products.map((product: any) => {
             return <ProductCard data={product} key={product.id} />;
           })}
         </div>
+        </FadeInWrapper>
       </Container>
+
+      <FadeInWrapper>
         <section className="mt-20">
         <div className="flex flex-col md:flex-row justify-center items-center gap-10">
           <div className="flex flex-col gap-3 text-center md:text-left max-w-xl">
@@ -76,8 +89,12 @@ export default async function Home({ searchParams }: HomeProps) {
           </div>
           <CompareDemo />
         </div>
-      </section>
+        </section>
+      </FadeInWrapper>
+
+      <FadeInWrapper>
       <Reviews/>
+      </FadeInWrapper>
 
     </div>
   );
