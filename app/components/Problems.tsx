@@ -35,8 +35,8 @@ const skinProblems = [
   },
   {
     id: 6,
-    image: "/skins/acne.jpg",
-    link: "/product/67ac0a6fef1ff3c520fb0212",
+    image: "/skins/dullskin.jpg",
+    link: "/product/67b83c0435ecaee5e9e3046c",
     title: "Acne"
   },
 ];
