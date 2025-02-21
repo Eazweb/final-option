@@ -44,10 +44,13 @@ const skinProblems = [
 export default function Problems() {
   return (
     <div className="w-full py-5">
-      <div className="max-w-[1300px] mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-5 text-[#a7c957]">
+      <div className="max-w-[1300px] mx-auto mt-5">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-[#a7c957]">
             Common Skin Problems
           </h2>
+          <p className="text-center mb-5 text-gray-500">
+            Six skin problems, One solution. Medimetics!
+          </p>
 
         <div className="grid grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
           {skinProblems.map((problem, index) => (
