@@ -52,7 +52,7 @@ const CheckoutClient = () => {
     phone: ''
   });
 
-  const deliveryCharge = !address.country ? 50 : address.country.toLowerCase() === 'india' ? 50 : 1000;
+  const deliveryCharge = !address.country ? 50 : address.country.toLowerCase() === 'india' ? 5 : 1000;
   const subtotal = cartProducts?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
   const total = subtotal + deliveryCharge;
 
