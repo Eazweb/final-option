@@ -36,7 +36,8 @@ const countryOptions: CountryOption[] = countries.map((country: string) => ({
   label: country
 }));
 
-const INTERNATIONAL_DELIVERY_RATE = 2850; // Rate per 1000 grams in rupees
+const BASE_INTERNATIONAL_RATE = 2850; // Base rate for first 1000 grams in rupees
+const ADDITIONAL_RATE_PER_TIER = 1425; // Additional rate per 500g tier in rupees
 
 const CheckoutClient = () => {
   const router = useRouter();
@@ -73,8 +74,16 @@ const CheckoutClient = () => {
     if (address.country.toLowerCase() === 'india') {
       return totalItems >= 3 ? 0 : 50;
     } else {
-      // International delivery: 2850 rupees per 1000 grams
-      return totalWeight / 1000 * INTERNATIONAL_DELIVERY_RATE;
+      // International delivery calculation
+      if (totalWeight <= 1000) {
+        return BASE_INTERNATIONAL_RATE;
+      } else {
+        // Calculate additional tiers needed beyond the first 1000g
+        const additionalWeight = totalWeight - 1000;
+        // Calculate number of 500g tiers (ceiling division)
+        const additionalTiers = Math.ceil(additionalWeight / 500);
+        return BASE_INTERNATIONAL_RATE + (additionalTiers * ADDITIONAL_RATE_PER_TIER);
+      }
     }
   };
 
