@@ -119,7 +119,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
               {product.category}
             </div> */}
             <div className="text-sm px-2 py-1 bg-gray-300">
-               {product.brand}
+               {product.brand.split(' ').slice(0, -1).join(' ')}
             </div>
           </div>
         </div>

@@ -36,6 +36,8 @@ const countryOptions: CountryOption[] = countries.map((country: string) => ({
   label: country
 }));
 
+const INTERNATIONAL_DELIVERY_RATE = 2850; // Rate per 1000 grams in rupees
+
 const CheckoutClient = () => {
   const router = useRouter();
   const { cartProducts, handleClearCart, handleSetPaymentIntent } = useCart();
@@ -52,7 +54,31 @@ const CheckoutClient = () => {
     phone: ''
   });
 
-  const deliveryCharge = !address.country ? 50 : address.country.toLowerCase() === 'india' ? 5 : 1000;
+
+  const totalWeight = cartProducts?.reduce((acc, item) => {
+    const weight = parseInt(item.brand.split(' ').pop() || '0');
+    if (isNaN(weight)) {
+      console.error('Invalid weight for product:', item.brand);
+      return acc;
+    }
+    return acc + (weight * item.quantity);
+  }, 0) || 0;
+
+  const totalItems = cartProducts?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+
+  // Calculate delivery charge based on country and conditions
+  const calculateDeliveryCharge = () => {
+    if (!address.country) return 50;
+    
+    if (address.country.toLowerCase() === 'india') {
+      return totalItems >= 3 ? 0 : 50;
+    } else {
+      // International delivery: 2850 rupees per 1000 grams
+      return totalWeight / 1000 * INTERNATIONAL_DELIVERY_RATE;
+    }
+  };
+
+  const deliveryCharge = calculateDeliveryCharge();
   const subtotal = cartProducts?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
   const total = subtotal + deliveryCharge;
 
@@ -149,7 +175,8 @@ const CheckoutClient = () => {
                   country: address.country,
                   phone: address.phone
                 },
-                deliveryCharge: deliveryCharge
+                deliveryCharge: deliveryCharge,
+                totalWeight: totalWeight
               })
             });
 
@@ -315,8 +342,19 @@ const CheckoutClient = () => {
                 <span>₹{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between">
+                <span>Total Weight:</span>
+                <span>{totalWeight} g</span>
+              </div>
+            
+              <div className="flex justify-between">
                 <span>Delivery Charge:</span>
-                <span>₹{formatPrice(deliveryCharge)}</span>
+                <span>
+                  {deliveryCharge === 0 ? (
+                    <span className="text-green-600">Free Delivery</span>
+                  ) : (
+                    `₹${formatPrice(deliveryCharge)}`
+                  )}
+                </span>
               </div>
               <div className="flex justify-between font-semibold text-lg pt-2 border-t">
                 <span>Total:</span>

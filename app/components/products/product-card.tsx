@@ -66,7 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
         </h3>
         
         <span className="text-sm font-medium text-slate-500">
-          {data.brand}
+          {data.brand.split(' ').slice(0, -1).join(' ')}
         </span>
 
         {/* Price and Rating Section */}
