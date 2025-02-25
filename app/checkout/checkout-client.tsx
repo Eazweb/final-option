@@ -38,6 +38,7 @@ const countryOptions: CountryOption[] = countries.map((country: string) => ({
 
 const BASE_INTERNATIONAL_RATE = 2850; // Base rate for first 1000 grams in rupees
 const ADDITIONAL_RATE_PER_TIER = 1425; // Additional rate per 500g tier in rupees
+const FREE_SHIPPING_THRESHOLD = 1500; // Minimum cart value for free shipping in India
 
 const CheckoutClient = () => {
   const router = useRouter();
@@ -66,13 +67,20 @@ const CheckoutClient = () => {
   }, 0) || 0;
 
   const totalItems = cartProducts?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+  const subtotal = cartProducts?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
 
   // Calculate delivery charge based on country and conditions
   const calculateDeliveryCharge = () => {
     if (!address.country) return 50;
     
     if (address.country.toLowerCase() === 'india') {
-      return totalItems >= 3 ? 0 : 50;
+      // Free delivery in India if:
+      // 1. Cart total is 1500 or more OR
+      // 2. There are 3 or more items in the cart
+      if (subtotal >= FREE_SHIPPING_THRESHOLD || totalItems >= 3) {
+        return 0;
+      }
+      return 50;
     } else {
       // International delivery calculation
       if (totalWeight <= 1000) {
@@ -88,7 +96,6 @@ const CheckoutClient = () => {
   };
 
   const deliveryCharge = calculateDeliveryCharge();
-  const subtotal = cartProducts?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
   const total = subtotal + deliveryCharge;
 
   const isFormValid = address.line1 && address.city && address.state && 
@@ -230,6 +237,20 @@ const CheckoutClient = () => {
     }
   };
 
+  // Helper function to display free delivery message with reason
+  const getFreeDeliveryMessage = () => {
+    if (address.country && address.country.toLowerCase() === 'india') {
+      if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+        return "Free Delivery";
+      } else if (totalItems >= 3) {
+        return "Free Delivery (3+ items)";
+      }
+    }
+    return null;
+  };
+
+  const freeDeliveryMessage = getFreeDeliveryMessage();
+
   return (
     <div className="w-full max-w-[800px] mx-auto">
       {loading && (
@@ -358,8 +379,8 @@ const CheckoutClient = () => {
               <div className="flex justify-between">
                 <span>Delivery Charge:</span>
                 <span>
-                  {deliveryCharge === 0 ? (
-                    <span className="text-green-600">Free Delivery</span>
+                  {freeDeliveryMessage ? (
+                    <span className="text-green-600">{freeDeliveryMessage}</span>
                   ) : (
                     `₹${formatPrice(deliveryCharge)}`
                   )}

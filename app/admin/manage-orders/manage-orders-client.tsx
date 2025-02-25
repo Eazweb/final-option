@@ -34,7 +34,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
   const [open, setOpen] = useState(false);
   const [nameToDelete, setNameToDelete] = useState("");
   const [orderToDelete, setOrderToDelete] = useState("");
-  const [showCompleted, setShowCompleted] = useState(false);
+  const [showCompleted, setShowCompleted] = useState(true); // Changed to true, so it shows completed orders by default
 
   let rows: any = [];
 
@@ -236,7 +236,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
         >
           <MdFilterAlt size={20} />
           <span className="text-sm">
-            {showCompleted ? 'Show All' : 'Show Completed'}
+            {showCompleted ? 'Show All Orders' : 'Show Only Paid Orders'}
           </span>
         </button>
       </div>
