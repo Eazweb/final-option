@@ -6,6 +6,9 @@ import Footer from "./components/footer/footer";
 import CartProvider from "@/provider/cart-provider";
 import { Toaster } from "react-hot-toast";
 import getCurrentUser from "@/actions/get-current-user";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { Providers } from "./components/Providers";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -20,32 +23,34 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">
       <body
         className={`${poppins.className}, flex flex-col min-h-screen text-slate-700 bg-slate-100`}
       >
-        <Toaster
-          containerStyle={{ top: "88px" }}
-          toastOptions={{
-            position: "top-right",
-            duration: 3000,
+        <Providers session={session}>
+          <Toaster
+            containerStyle={{ top: "88px" }}
+            toastOptions={{
+              position: "top-right",
+              duration: 3000,
+              style: {
 
-            style: {
-             
-              color: "#333",
-              fontSize: "16px",
-              fontFamily: poppins.style.fontFamily,
-            },
-          }}
-        />
+                color: "#333",
+                fontSize: "16px",
+                fontFamily: poppins.style.fontFamily,
+              },
+            }}
+          />
 
-        <CartProvider>
-          <NavBar currentUser={currentUser} />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </CartProvider>
+          <CartProvider>
+            <NavBar currentUser={currentUser} />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </CartProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -85,13 +85,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
         label={isLoading ? "Loading" : "Login"}
         onClick={handleSubmit(onSubmit)}
       />
-      {/* <HorizontalLine or />
+      <HorizontalLine or />
       <Button
         icon={AiOutlineGoogle}
         label="Continue with Google"
         onClick={() => signIn("google")}
         outline
-      /> */}
+      />
       <p className="text-sm">
         Do not have an account?{" "}
         <Link href={"/register"} className="underline">
