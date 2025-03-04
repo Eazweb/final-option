@@ -65,27 +65,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
           {truncateText(data.name)}
         </h3>
         
-        <span className="text-sm font-medium text-slate-500">
-          {data.brand.split(' ').slice(0, -1).join(' ')}
-        </span>
-
-        {/* Price and Rating Section */}
-        <div className="flex items-center justify-between mt-1">
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-semibold">
-              ₹{formatPrice(data.price)}
-            </span>
-            {data.list !== data.price && (
-              <span className="text-sm font-medium text-slate-400 line-through">
-                ₹{formatPrice(data.list)}
-              </span>
-            )}
-          </div>
-
+        <div className="flex justify-between items-center gap-2">
+          <span className="text-sm font-medium text-slate-500">
+            {data.brand.split(' ').slice(0, -1).join(' ')}
+          </span>
           <div className="flex items-center gap-1 text-yellow-500">
             <span className="text-sm font-medium">5</span>
             <Star className="h-4 w-4 fill-yellow-500" />
           </div>
+        </div>
+
+        {/* Price Section */}
+        <div className="flex items-center gap-2 mt-1">
+          <span className="text-lg font-semibold">
+            ₹{formatPrice(data.price)}
+          </span>
+          {data.list !== data.price && (
+            <span className="text-sm font-medium text-slate-400 line-through">
+              ₹{formatPrice(data.list)}
+            </span>
+          )}
         </div>
 
         {/* Add to Cart Button */}

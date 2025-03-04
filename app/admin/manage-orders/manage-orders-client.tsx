@@ -12,6 +12,7 @@ import {
   MdDone,
   MdRemoveRedEye,
   MdFilterAlt,
+  MdAddBox,
 } from "react-icons/md";
 import ActionButton from "@/app/components/action-button";
 import { useCallback, useState } from "react";
@@ -57,10 +58,10 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
     axios
       .put("/api/order", {
         id,
-        deliveryStatus: "dispatched",
+        deliveryStatus: "packed",
       })
       .then((res) => {
-        toast.success("Order Dispatched.");
+        toast.success("Order Packed.");
         router.refresh();
       })
       .catch((error) => {
@@ -155,6 +156,13 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
                 icon={MdAccessTimeFilled}
                 bg="bg-slate-200"
                 color="text-slate-700"
+              />
+            ) : params.row.deliveryStatus === "packed" ? (
+              <Status
+                text="packed"
+                icon={MdAddBox}
+                bg="bg-blue-200"
+                color="text-blue-700"
               />
             ) : params.row.deliveryStatus === "dispatched" ? (
               <Status

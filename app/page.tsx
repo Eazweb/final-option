@@ -11,6 +11,7 @@ import ResponsiveCarousel from "./components/ResponsiveCarousel";
 import Link from "next/link";
 import { CompareDemo } from "./components/Compare";
 import FadeInWrapper from "./components/FadeInWrapper";
+import BeautyComponent from "./components/BeautyComponent";
 
 interface HomeProps {
   searchParams: IProductParams;
@@ -90,6 +91,10 @@ export default async function Home({ searchParams }: HomeProps) {
           <CompareDemo />
         </div>
         </section>
+      </FadeInWrapper>
+
+      <FadeInWrapper>
+      <BeautyComponent/>
       </FadeInWrapper>
 
       <FadeInWrapper>

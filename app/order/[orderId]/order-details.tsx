@@ -48,31 +48,38 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         <div className="flex gap-2 items-center">
           <div>Delivery status:</div>
           <div>
-            {order.deliveryStatus === "pending" ? (
-              <Status
-                text="pending"
-                icon={MdAccessTimeFilled}
-                bg="bg-slate-200"
-                color="text-slate-700"
-              />
-            ) : order.deliveryStatus === "dispatched" ? (
-              <Status
-                text="dispatched"
-                icon={MdDeliveryDining}
-                bg="bg-purple-200"
-                color="text-purple-700"
-              />
-            ) : (
-              order.deliveryStatus === "delivered" && (
-                <Status
-                  text="delivered"
-                  icon={MdDone}
-                  bg="bg-green-200"
-                  color="text-green-700"
-                />
-              )
-            )}
-          </div>
+  {order.deliveryStatus === "pending" ? (
+    <Status
+      text="pending"
+      icon={MdAccessTimeFilled}
+      bg="bg-slate-200"
+      color="text-slate-700"
+    />
+  ) : order.deliveryStatus === "packed" ? (
+    <Status
+      text="packed"
+      icon={MdDeliveryDining}
+      bg="bg-blue-200"
+      color="text-blue-700"
+    />
+  ) : order.deliveryStatus === "dispatched" ? (
+    <Status
+      text="dispatched"
+      icon={MdDeliveryDining}
+      bg="bg-purple-200"
+      color="text-purple-700"
+    />
+  ) : (
+    order.deliveryStatus === "delivered" && (
+      <Status
+        text="delivered"
+        icon={MdDone}
+        bg="bg-green-200"
+        color="text-green-700"
+      />
+    )
+  )}
+</div>
         </div>
         <div>Date: {moment(order.createDate).fromNow()}</div>
       </div>
